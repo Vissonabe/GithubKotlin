@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Github-Kotlin</string>
+    <string name="search_for_users">You can search for Github users</string>
+    <string name="user_name_hint">user name</string>
+</resources>
