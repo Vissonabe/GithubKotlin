@@ -14,6 +14,8 @@ class Constants {
         const val STATE_EMPTY_TEXT = 2
         const val STATE_SUCCESS = 3
         const val STATE_FAILURE = 4
+
+        const val HTTPS_API_GITHUB_URL = "https://api.github.com/"
     }
 }
 

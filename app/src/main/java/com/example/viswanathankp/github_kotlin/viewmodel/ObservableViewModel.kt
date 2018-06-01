@@ -7,7 +7,7 @@ import android.arch.lifecycle.ViewModel
 import android.databinding.Observable
 import android.databinding.PropertyChangeRegistry
 
-open class ObservableViewModel(application: Application) : AndroidViewModel(application), Observable, LifecycleObserver {
+open class ObservableViewModel : ViewModel(), Observable {
 
     private val callbacks: PropertyChangeRegistry by lazy { PropertyChangeRegistry() }
 

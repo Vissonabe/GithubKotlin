@@ -1,18 +1,16 @@
 package com.example.viswanathankp.github_kotlin.viewmodel
 
-import android.app.Application
 import android.arch.lifecycle.MutableLiveData
 import android.databinding.ObservableField
 import com.example.viswanathankp.github_kotlin.domain.userlist.SearchData
 import com.example.viswanathankp.github_kotlin.domain.userlist.UserListUsecase
-import com.example.viswanathankp.github_kotlin.domain.userlist.UserListUsecaseImpl
 import com.example.viswanathankp.github_kotlin.model.Result
 import com.example.viswanathankp.github_kotlin.utils.Constants
-import android.arch.lifecycle.Transformations
 import com.example.viswanathankp.github_kotlin.domain.userlist.SearchUseCaseInterface
+import javax.inject.Inject
 
 
-class MainViewModel(val app: Application) : ObservableViewModel(app), SearchUseCaseInterface {
+class MainViewModel @Inject constructor(private val searchUseCase : UserListUsecase) : ObservableViewModel(), SearchUseCaseInterface {
 
     override fun handleState(searchData: SearchData) {
         when (searchData.state) {
@@ -33,14 +31,10 @@ class MainViewModel(val app: Application) : ObservableViewModel(app), SearchUseC
 
     var isLoading = ObservableField<Boolean>(false)
     var informationText = ObservableField<Boolean>(true)
-    private val searchUseCase : UserListUsecase = UserListUsecaseImpl()
 
     private val listMutable = MutableLiveData<Result>()
 
     init {
-        Transformations.map(searchUseCase.getStateLiveData()) {
-            it -> handleState(it)
-        }
         searchUseCase.setInterface(this)
     }
 

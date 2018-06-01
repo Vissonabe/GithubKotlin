@@ -2,7 +2,6 @@ package com.example.viswanathankp.github_kotlin.domain.userlist
 
 import android.arch.lifecycle.MutableLiveData
 import com.example.viswanathankp.github_kotlin.api.SearchRepository
-import com.example.viswanathankp.github_kotlin.api.SearchRepositoryProvider
 import com.example.viswanathankp.github_kotlin.model.Result
 import com.example.viswanathankp.github_kotlin.utils.Constants
 import io.reactivex.Observable
@@ -11,14 +10,14 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.PublishSubject
 import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
-class UserListUsecaseImpl : UserListUsecase {
+class UserListUsecaseImpl @Inject constructor(private val searchRepository: SearchRepository) : UserListUsecase {
 
-    var repository : SearchRepository = SearchRepositoryProvider.provideSearchRepository()
-    val subject = PublishSubject.create<String>()
+    private val subject = PublishSubject.create<String>()
     private val disposable  = CompositeDisposable()
-    var currentPageIndex : Int = 1
-    lateinit var currentSearchString : String
+    private var currentPageIndex : Int = 1
+    private lateinit var currentSearchString : String
     private val searchResultMutable = MutableLiveData<SearchData>()
     private var searchUseCaseInterface: SearchUseCaseInterface? = null
 
@@ -27,7 +26,7 @@ class UserListUsecaseImpl : UserListUsecase {
     }
 
     private fun searchUser(tag: String, page: Int): Observable<Result> {
-        return repository.searchUsers(tag, page, 20)
+        return searchRepository.searchUsers(tag, page, 20)
     }
 
     override fun setInterface(inter: SearchUseCaseInterface) {

@@ -1,6 +1,7 @@
 package com.example.viswanathankp.github_kotlin.view.main
 
 import android.arch.lifecycle.Observer
+import android.arch.lifecycle.ViewModelProvider
 import android.arch.lifecycle.ViewModelProviders
 import android.databinding.DataBindingUtil
 import android.os.Bundle
@@ -15,15 +16,20 @@ import android.view.ViewGroup
 import com.example.viswanathankp.github_kotlin.R
 import com.example.viswanathankp.github_kotlin.adapter.GithubListAdapter
 import com.example.viswanathankp.github_kotlin.databinding.MainFragmentBinding
+import com.example.viswanathankp.github_kotlin.di.FragmentInjector
 import com.example.viswanathankp.github_kotlin.model.Result
 import com.example.viswanathankp.github_kotlin.utils.EndlessRecyclerOnScrollListener
 import com.example.viswanathankp.github_kotlin.viewmodel.MainViewModel
+import javax.inject.Inject
 
-class MainFragment : Fragment() {
+class MainFragment : Fragment(), FragmentInjector {
 
     companion object {
         fun newInstance() = MainFragment()
     }
+
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
 
     private lateinit var viewModel: MainViewModel
     private lateinit var binding: MainFragmentBinding
@@ -37,8 +43,7 @@ class MainFragment : Fragment() {
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        viewModel = ViewModelProviders.of(this)[MainViewModel::class.java]
-        lifecycle.addObserver(viewModel)
+        viewModel = ViewModelProviders.of(this, viewModelFactory)[MainViewModel::class.java]
         initView(binding)
         binding.viewModel = viewModel
     }
