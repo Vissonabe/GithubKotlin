@@ -48,7 +48,7 @@ class UserListUsecaseImpl @Inject constructor(private val searchRepository: Sear
                 .debounce(300, TimeUnit.MILLISECONDS)
                 .filter({it.isNotEmpty()})
                 .doOnNext { updateState(Constants.STATE_LOADING) }
-                .distinctUntilChanged()
+//                .distinctUntilChanged()
                 .switchMap({
                     searchUser(it, currentPageIndex).subscribeOn(Schedulers.io())
                 })
